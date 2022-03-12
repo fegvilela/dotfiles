@@ -1,0 +1,52 @@
+####### fegvilela aliases #######
+
+##  git
+alias ga="git add .
+        git status"
+alias gcm="git commit -m "$1""
+alias gpl="git pull"
+alias gps="git push"
+alias gl="git log"
+alias gch="git checkout"
+alias gs="git status"
+
+##  yarn
+alias ys="yarn start"
+alias yl="yarn lint"
+alias yi="yarn install"
+alias ya="yarn add "
+alias yr="yarn remove "
+
+## folders
+alias my="cd $HOME/documents/projects/my"
+alias p="cd $HOME/documents/projects/pagarme"
+alias music="cd /Users/fegvilela/Music/GarageBand/musicas"
+alias til="my && cd til"
+
+## softwares/scripts
+alias c="code ."
+alias d25="d 25m"
+alias d5="d 5m"
+alias cat="bat --paging=never"
+
+## pomodoro
+alias p2="d25 && d5 && d25"
+alias p3="p2 && d5 && d25"
+alias p4="p3 && d5 && d25 && d 15m"
+
+## python
+alias venv:a="source .venv/bin/activate"
+alias venv:d="deactivate"
+alias venv:c="python3 -m venv .venv && source .venv/bin/activate && pip install pip --upgrade"
+
+
+## misc
+alias zsh="vim ~/.zshrc"
+alias tree="ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'"
+alias tree:f="find . | sed -e \"s/[^-][^\/]*\// |/g\" -e \"s/|\([^ ]\)/|-\1/\" -exec bat {} +"
+
+## docker
+alias up="docker compose up"
+alias down="docker compose down"
+alias docker-clean="docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q) && docker rmi $(docker images -a -q) --force"
+

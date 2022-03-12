@@ -15,8 +15,6 @@ unsetopt nomatch
 # Nicer prompt.
 export PS1=$'\n'"%F{green} %*%F %3~ %F{white}"$'\n'"$ "
 
-# Enable plugins.
-plugins=(git brew history kubectl history-substring-search)
 
 # Custom $PATH with extra locations.
 export PATH=$HOME/Library/Python/3.8/bin:/opt/homebrew/bin:/usr/local/bin:/usr/local/sbin:$HOME/bin:$HOME/go/bin:/usr/local/git/bin:$HOME/.composer/vendor/bin:$PATH
@@ -160,6 +158,10 @@ plugins=(
   docker
   docker-compose
   virtualenv
+  brew 
+  history 
+  kubectl 
+  history-substring-search
 )
 
 function virtualenv_info { 
@@ -189,57 +191,6 @@ batdiff() {
 # function for ding
 d() { ding in  $@ -c "osascript -e 'say \"foi doido\"'"}
 
-##### ALIAS ####
-
-## para git
-alias ga="git add .
-        git status"
-alias gcm="git commit -m "$1""
-alias gpl="git pull"
-alias gps="git push"
-alias gl="git log"
-alias gch="git checkout"
-alias gs="git status"
-
-## para yarn
-alias ys="yarn start"
-alias yl="yarn lint"
-alias yi="yarn install"
-alias ya="yarn add "
-alias yr="yarn remove "
-
-## para diretorios
-alias my="cd $HOME/documents/projects/my"
-alias p="cd $HOME/documents/projects/pagarme"
-alias music="cd /Users/fegvilela/Music/GarageBand/musicas"
-alias til="my && cd til"
-
-## para programas
-alias c="code ."
-alias d25="d 25m"
-alias d5="d 5m"
-alias cat="bat --paging=never"
-
-## pomodoro
-alias p2="d25 && d5 && d25"
-alias p3="p2 && d5 && d25"
-alias p4="p3 && d5 && d25 && d 15m"
-
-## para python
-alias venv:a="source .venv/bin/activate"
-alias venv:d="deactivate"
-alias venv:c="python3 -m venv .venv && source .venv/bin/activate && pip install pip --upgrade"
-
-
-## misc
-alias zsh="vim ~/.zshrc"
-alias tree="ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'"
-alias tree:f="find . | sed -e \"s/[^-][^\/]*\// |/g\" -e \"s/|\([^ ]\)/|-\1/\" -exec bat {} +"
-
-## para docker
-alias up="docker compose up"
-alias down="docker compose down"
-alias docker-clean="docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q) && docker rmi $(docker images -a -q) --force"
 
 #######################################################################
 
