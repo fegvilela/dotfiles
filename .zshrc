@@ -30,27 +30,11 @@ then
   source ~/.aliases
 fi
 
-# Set architecture-specific brew share path.
-arch_name="$(uname -m)"
-if [ "${arch_name}" = "x86_64" ]; then
-    share_path="/usr/local/share"
-elif [ "${arch_name}" = "arm64" ]; then
-    share_path="/opt/homebrew/share"
-else
-    echo "Unknown architecture: ${arch_name}"
-fi
-
 # Allow history search via up/down keys.
 source ${share_path}/zsh-history-substring-search/zsh-history-substring-search.zsh
 bindkey "^[[A" history-substring-search-up
 bindkey "^[[B" history-substring-search-down
 
-# Git aliases.
-alias gs='git status'
-alias gc='git commit'
-alias gp='git pull --rebase'
-alias gcam='git commit -am'
-alias gl='git log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit'
 
 # Completions.
 autoload -Uz compinit && compinit
@@ -79,11 +63,6 @@ function gsync() {
 # Tell homebrew to not autoupdate every single time I run it (just once a week).
 export HOMEBREW_AUTO_UPDATE_SECS=604800
 
-# Super useful Docker container oneshots.
-# Usage: dockrun, or dockrun [centos7|fedora27|debian9|debian8|ubuntu1404|etc.]
-dockrun() {
- docker run -it geerlingguy/docker-"${1:-ubuntu1604}"-ansible /bin/bash
-}
 
 # Enter a running Docker container.
 function denter() {
@@ -96,15 +75,6 @@ function denter() {
  return 0
 }
 
-# Delete a given line number in the known_hosts file.
-knownrm() {
- re='^[0-9]+$'
- if ! [[ $1 =~ $re ]] ; then
-   echo "error: line number missing" >&2;
- else
-   sed -i '' "$1d" ~/.ssh/known_hosts
- fi
-}
 
 # Allow Composer to use almost as much RAM as Chrome.
 export COMPOSER_MEMORY_LIMIT=-1
@@ -125,3 +95,188 @@ export COMPOSER_MEMORY_LIMIT=-1
 #}
 #shopt -s extdebug
 #trap prod_command_trap DEBUG
+
+
+
+
+
+######## fegvilela stuff ########
+
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
+
+# Path to your oh-my-zsh installation.
+export ZSH="/Users/fegvilela/.oh-my-zsh"
+
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+ZSH_THEME="random"
+
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in $ZSH/themes/
+# If set to an empty array, this variable will have no effect.
+ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" "fox" "amuse" "aussiegeek" "candy" "darkblood" "funky" "jonathan" "nicoulaj" "wedisagree" "xiong-chiamiov-plus" )
+
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
+
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
+
+# Uncomment the following line to disable bi-weekly auto-update checks.
+# DISABLE_AUTO_UPDATE="true"
+
+# Uncomment the following line to automatically update without prompting.
+DISABLE_UPDATE_PROMPT="true"
+
+# Uncomment the following line to change how often to auto-update (in days).
+# export UPDATE_ZSH_DAYS=7
+
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS="true"
+
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment the following line to enable command auto-correction.
+ENABLE_CORRECTION="true"
+
+
+# Which plugins would you like to load?
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(
+  git
+  dotenv
+  docker
+  docker-compose
+  virtualenv
+)
+
+function virtualenv_info { 
+    [ $VIRTUAL_ENV ] && echo '('`basename $VIRTUAL_ENV`') '
+}
+
+source $ZSH/oh-my-zsh.sh
+
+# User configuration
+
+# Preferred editor for local and remote sessions
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vim'
+else
+  export EDITOR='mvim'
+fi
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+## function for git
+batdiff() {
+    git diff --name-only --diff-filter=d | xargs bat --diff --color=always 
+}
+
+# function for ding
+d() { ding in  $@ -c "osascript -e 'say \"foi doido\"'"}
+
+##### ALIAS ####
+
+## para git
+alias ga="git add .
+        git status"
+alias gcm="git commit -m "$1""
+alias gpl="git pull"
+alias gps="git push"
+alias gl="git log"
+alias gch="git checkout"
+alias gs="git status"
+
+## para yarn
+alias ys="yarn start"
+alias yl="yarn lint"
+alias yi="yarn install"
+alias ya="yarn add "
+alias yr="yarn remove "
+
+## para diretorios
+alias my="cd $HOME/documents/projects/my"
+alias p="cd $HOME/documents/projects/pagarme"
+alias music="cd /Users/fegvilela/Music/GarageBand/musicas"
+alias til="my && cd til"
+
+## para programas
+alias c="code ."
+alias d25="d 25m"
+alias d5="d 5m"
+alias cat="bat --paging=never"
+
+## pomodoro
+alias p2="d25 && d5 && d25"
+alias p3="p2 && d5 && d25"
+alias p4="p3 && d5 && d25 && d 15m"
+
+## para python
+alias venv:a="source .venv/bin/activate"
+alias venv:d="deactivate"
+alias venv:c="python3 -m venv .venv && source .venv/bin/activate && pip install pip --upgrade"
+
+
+## misc
+alias zsh="vim ~/.zshrc"
+alias tree="ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/'"
+alias tree:f="find . | sed -e \"s/[^-][^\/]*\// |/g\" -e \"s/|\([^ ]\)/|-\1/\" -exec bat {} +"
+
+## para docker
+alias up="docker compose up"
+alias down="docker compose down"
+alias docker-clean="docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q) && docker rmi $(docker images -a -q) --force"
+
+#######################################################################
+
+
+### Added by Zinit's installer
+# if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
+#    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
+#    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
+#    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
+#        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
+#        print -P "%F{160}▓▒░ The clone has failed.%f%b"
+# fi
+
+# source "$HOME/.zinit/bin/zinit.zsh"
+# autoload -Uz _zinit
+# (( ${+_comps} )) && _comps[zinit]=_zinit
+
+# Load a few important annexes, without Turbo
+# (this is currently required for annexes)
+# zinit light-mode for \
+#    zinit-zsh/z-a-rust \
+#    zinit-zsh/z-a-as-monitor \
+#    zinit-zsh/z-a-patch-dl \
+#    zinit-zsh/z-a-bin-gem-node
+
+zi_home="${HOME}/.zi"
+source "${zi_home}/bin/zi.zsh"
+# Next two lines must be below the above two
+autoload -Uz _zi
+(( ${+_comps} )) && _comps[zi]=_zi
+
+### End of Zinit's installer chunk
+
+zinit light zdharma/fast-syntax-highlighting
+zinit light zsh-users/zsh-autosuggestions
+zinit light zsh-users/zsh-completions
+
+# Created by pipx on 2021-08-16 16:13:41
+export PATH="$PATH:/Users/fegvilela/.local/bin"
+
